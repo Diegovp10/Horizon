@@ -32,6 +32,7 @@ body {
     height: 100vh;
     margin: 0 auto;
     padding: 20px;
+    padding-top: 90px; /* Espacio para el header fijo */
     padding-bottom: 200px; /* Espacio para bottom-container */
     display: none;
     overflow-y: auto;
@@ -45,14 +46,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    position: sticky;
+    position: fixed; /* Cambiamos a fixed para que no se desplace */
     top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* Centramos horizontalmente */
     background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 20px;
     z-index: 10;
     width: 100%;
+    max-width: 430px; /* Coincide con el ancho de .page */
 }
 
 .dv-circle {
@@ -308,6 +310,7 @@ input, textarea {
     flex-grow: 1; /* Ocupa todo el espacio disponible */
     overflow-y: auto;
     padding: 10px 0; /* Añadimos padding para mejor espaciado */
+    margin-top: 0; /* No necesitamos margen superior adicional */
     margin-bottom: 70px; /* Espacio para el chat-input */
     min-height: 0; /* Permite que se ajuste dinámicamente */
 }
@@ -432,6 +435,11 @@ input, textarea {
     .page {
         max-width: 90%;
         padding-bottom: 220px; /* Ajuste para bottom-container */
+        padding-top: 90px; /* Espacio para el header fijo */
+    }
+    
+    .header {
+        max-width: 90%; /* Coincide con el ancho de .page */
     }
     
     .chat-container {
@@ -463,11 +471,13 @@ input, textarea {
     .page {
         padding: 15px;
         max-width: 100%;
+        padding-top: 70px; /* Ajuste para el header fijo en móviles */
         padding-bottom: 200px; /* Ajuste para bottom-container */
     }
     
     .header {
-        margin-bottom: 20px;
+        padding: 10px 15px;
+        max-width: 100%; /* Coincide con el ancho de .page */
     }
     
     .logo h1 {
@@ -586,7 +596,13 @@ input, textarea {
     
     .page {
         padding: 10px;
+        padding-top: 60px; /* Ajuste para el header fijo en pantallas pequeñas */
         padding-bottom: 180px; /* Ajuste para bottom-container */
+    }
+    
+    .header {
+        padding: 10px;
+        max-width: 100%;
     }
     
     .chat-container {
@@ -619,7 +635,12 @@ input, textarea {
     .page {
         height: auto;
         min-height: 100vh;
+        padding-top: 70px; /* Ajuste para el header fijo */
         padding-bottom: 200px; /* Ajuste para bottom-container */
+    }
+    
+    .header {
+        max-width: 100%;
     }
     
     .chat-container {
