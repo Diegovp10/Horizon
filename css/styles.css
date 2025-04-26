@@ -307,8 +307,8 @@ input, textarea {
 .chat-container {
     flex-grow: 1; /* Ocupa todo el espacio disponible */
     overflow-y: auto;
-    padding: 0;
-    margin-bottom: 0; /* Eliminamos el margen inferior */
+    padding: 10px 0; /* Añadimos padding para mejor espaciado */
+    margin-bottom: 70px; /* Espacio para el chat-input */
     min-height: 0; /* Permite que se ajuste dinámicamente */
 }
 
@@ -435,7 +435,7 @@ input, textarea {
     }
     
     .chat-container {
-        height: calc(100vh - 240px);
+        margin-bottom: 70px; /* Espacio para chat-input */
     }
     
     .home-image {
@@ -502,7 +502,7 @@ input, textarea {
     }
     
     .chat-container {
-        height: calc(100vh - 200px);
+        margin-bottom: 60px; /* Espacio para chat-input */
     }
     
     .calendar-body span {
@@ -559,6 +559,7 @@ input, textarea {
     .chat-input {
         width: calc(100% - 30px);
         max-width: 340px;
+        bottom: 15px; /* Más cerca del borde en móviles */
     }
 }
 
@@ -589,7 +590,7 @@ input, textarea {
     }
     
     .chat-container {
-        height: calc(100vh - 180px);
+        margin-bottom: 60px; /* Espacio para chat-input */
     }
     
     .home-image {
@@ -609,6 +610,7 @@ input, textarea {
     .chat-input {
         width: calc(100% - 20px);
         max-width: 300px;
+        bottom: 10px; /* Más cerca del borde */
     }
 }
 
@@ -622,6 +624,7 @@ input, textarea {
     
     .chat-container {
         height: 40vh;
+        margin-bottom: 60px; /* Espacio para chat-input */
     }
     
     .home-image {
