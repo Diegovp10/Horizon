@@ -652,3 +652,38 @@ input, textarea {
         margin-top: 60px;
     }
 }
+/* Estilo para el eslogan */
+.slogan {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #333; /* Color oscuro para contraste */
+    text-align: center;
+    margin: 20px 0; /* Espacio arriba y abajo */
+    padding: 0 20px; /* Padding lateral para evitar que toque los bordes */
+    line-height: 1.4; /* Mejora la legibilidad */
+}
+
+/* Media queries para ajustar el tamaño de fuente en diferentes dispositivos */
+@media (min-width: 481px) and (max-width: 768px) {
+    .slogan {
+        font-size: 20px;
+        margin: 25px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .slogan {
+        font-size: 16px;
+        margin: 15px 0;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .slogan {
+        font-size: 14px;
+        margin: 10px 0;
+        padding: 0 10px;
+    }
+}
