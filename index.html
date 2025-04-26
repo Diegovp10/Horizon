@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Horizon App</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <div class="home-image">
+            <img src="assets/images/new-image.png" alt="New Image">
+        </div>
+        <div class="bottom-container">
+            <div class="button-container">
+                <button onclick="navigate('questions-page')">Tu perfil</button>
+                <button onclick="navigate('tasks-page')">Lista de tareas</button>
+                <button onclick="navigate('calendar-page')">Calendario</button>
+                <button onclick="navigate('scenarios-page')">Simulación de escenarios</button>
+            </div>
+            <div class="helper-message" onclick="navigate('chat-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Icon">
+                <span>¿En qué te puedo ayudar?</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questions Page -->
+    <div id="questions-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <h2>Preguntas para conocerte mejor</h2>
+        <div class="questions-container">
+            <div>
+                <p>¿Prefieres actuar rápido o analizar todo antes?</p>
+                <div class="answer-box" id="answer1" contenteditable="true" onkeydown="handleAnswerKeyDown(event, 'answer1')"></div>
+            </div>
+            <div>
+                <p>¿Qué es más importante para ti: lógica, emociones o un balance?</p>
+                <div class="answer-box" id="answer2" contenteditable="true" onkeydown="handleAnswerKeyDown(event, 'answer2')"></div>
+            </div>
+            <div>
+                <p>¿Qué te estresa más al decidir: tiempo, presión social o falta de info?</p>
+                <div class="answer-box" id="answer3" contenteditable="true" onkeydown="handleAnswerKeyDown(event, 'answer3')"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tasks Page -->
+    <div id="tasks-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <h2>Lista de tareas</h2>
+        <div class="task-input">
+            <input type="text" id="task-input" placeholder="Nueva tarea">
+            <button onclick="addTask()">+</button>
+        </div>
+        <ul id="task-list">
+            <!-- Las tareas se generarán dinámicamente aquí -->
+        </ul>
+    </div>
+
+    <!-- Calendar Page -->
+    <div id="calendar-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <h2>Calendario</h2>
+        <div class="calendar">
+            <div class="calendar-title">
+                <div class="calendar-month">Abril</div>
+                <div class="calendar-year">2 0 2 5</div>
+            </div>
+            <div class="calendar-header">
+                <span>L</span>
+                <span>M</span>
+                <span>X</span>
+                <span>J</span>
+                <span>V</span>
+                <span>S</span>
+                <span>D</span>
+            </div>
+            <div class="calendar-body">
+                <span></span><span>1</span><span class="event">2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+                <span>7</span><span>8</span><span>9</span><span class="event">10</span><span>11</span><span>12</span><span>13</span>
+                <span class="event">14</span><span>15</span><span class="event">16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+                <span>21</span><span class="event">22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+                <span>28</span><span>29</span><span>30</span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <div style="margin-top: 20px;">
+            <button onclick="navigate('tasks-page')">Lista de tareas</button>
+        </div>
+    </div>
+
+    <!-- Chat Page -->
+    <div id="chat-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <div class="chat-container" id="chat-container">
+            <!-- Conversación de chat dinámica -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Escribe tu mensaje...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+
+    <!-- Scenarios Page -->
+    <div id="scenarios-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <h2>Simulación de escenarios</h2>
+        <div id="scenario-content">
+            <div class="scenario-option">
+                <h3>Opción A: Aceptar la oferta de trabajo</h3>
+                <p class="pro">Pro 1: Posible mejora salarial.</p>
+                <p class="pro">Pro 2: Nuevas oportunidades de crecimiento.</p>
+                <p class="pro">Pro 3: Ampliación de red profesional.</p>
+                <p class="con">Contra 1: Incertidumbre del nuevo ambiente.</p>
+                <p class="con">Contra 2: Período de adaptación y aprendizaje.</p>
+                <p class="con">Contra 3: Posible arrepentimiento.</p>
+            </div>
+            <div class="scenario-option">
+                <h3>Opción B: Mantener trabajo actual</h3>
+                <p class="pro">Pro 1: Mantener estabilidad y comodidad.</p>
+                <p class="pro">Pro 2: Conoces ya el ambiente y tu rol.</p>
+                <p class="pro">Pro 3: No afrontar nuevos retos de inmediato.</p>
+                <p class="con">Contra 1: Posible estancamiento profesional.</p>
+                <p class="con">Contra 2: Perder oportunidad de mejora salarial.</p>
+                <p class="con">Contra 3: Arrepentimiento futuro por no arriesgarse.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat History Page -->
+    <div id="history-page" class="page">
+        <div class="header">
+            <div class="dv-circle" onclick="navigate('questions-page')">DV</div>
+            <div class="logo" onclick="navigate('home-page')">
+                <img src="assets/images/robot-head.svg" alt="Robot Head">
+                <h1>HORIZON</h1>
+            </div>
+            <div class="history-icon" onclick="navigate('history-page')">
+                <img src="assets/images/history-icon.svg" alt="History Icon" class="history-icon-img">
+            </div>
+        </div>
+        <h2>Historial de chats</h2>
+        <div id="chat-history">
+            <button onclick="loadChat(0)">¿Compro un coche nuevo?</button>
+            <button onclick="loadChat(1)">Viajar solo o en grupo</button>
+            <button onclick="loadChat(2)">¿Me mudo de ciudad?</button>
+            <button onclick="loadChat(3)">Elegir universidad</button>
+            <button onclick="loadChat(4)">¿Me cambio de trabajo?</button>
+            <button onclick="loadChat(5)">Invertir o ahorrar</button>
+            <button onclick="loadChat(6)">¿Cambio de carrera?</button>
+            <button onclick="loadChat(7)">Planear vacaciones</button>
+            <button onclick="loadChat(8)">¿Dejo esta relación?</button>
+            <button onclick="loadChat(9)">Comprar casa o alquilar</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9366fc33999878ce',t:'MTc0NTY3OTk5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
