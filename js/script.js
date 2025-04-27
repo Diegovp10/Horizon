@@ -1,35 +1,33 @@
 let currentChatTopic = '';
 let chats = JSON.parse(localStorage.getItem('chats')) || [];
+let calendar;
 
 function navigate(pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
 
-    // Cargar el contenido adecuado según la página
     if (pageId === 'history-page') {
         loadChatHistory();
     } else if (pageId === 'scenarios-page') {
         loadScenarios();
     } else if (pageId === 'chat-page') {
-        // Asegurarse de que el chat esté listo
         const chatContainer = document.getElementById('chat-container');
         chatContainer.scrollTop = chatContainer.scrollHeight;
+    } else if (pageId === 'calendar-page') {
+        initializeCalendar();
     }
 }
 
 function handleAnswerKeyDown(event, answerId) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevenir el salto de línea
+        event.preventDefault();
         const answerBox = document.getElementById(answerId);
         const answer = answerBox.textContent.trim();
         
         if (answer) {
-            // Guardar la respuesta en localStorage
             let savedAnswers = JSON.parse(localStorage.getItem('profileAnswers')) || {};
             savedAnswers[answerId] = answer;
             localStorage.setItem('profileAnswers', JSON.stringify(savedAnswers));
-            
-            // Quitar el foco del elemento
             answerBox.blur();
         }
     }
@@ -37,8 +35,6 @@ function handleAnswerKeyDown(event, answerId) {
 
 function loadSavedAnswers() {
     const savedAnswers = JSON.parse(localStorage.getItem('profileAnswers')) || {};
-    
-    // Cargar respuestas en los cuadros
     for (const answerId in savedAnswers) {
         if (document.getElementById(answerId)) {
             document.getElementById(answerId).textContent = savedAnswers[answerId];
@@ -48,17 +44,24 @@ function loadSavedAnswers() {
 
 function addTask() {
     const taskInput = document.getElementById('task-input');
+    const taskDate = document.getElementById('task-date');
     const taskText = taskInput.value.trim();
-    if (!taskText) return;
+    const taskDateValue = taskDate.value.trim();
+
+    if (!taskText || !taskDateValue) {
+        alert('Por favor, ingresa una tarea y selecciona una fecha.');
+        return;
+    }
 
     const taskList = document.getElementById('task-list');
     const li = document.createElement('li');
     li.className = 'task-item';
-    li.innerHTML = `<input type="checkbox" onchange="completeTask(this)"> ${taskText}`;
+    li.innerHTML = `<input type="checkbox" onchange="completeTask(this)"> ${taskText} <span class="task-date">${taskDateValue}</span>`;
     taskList.appendChild(li);
+
     taskInput.value = '';
+    taskDate.value = '';
     
-    // Guardar tareas en localStorage
     saveTasks();
 }
 
@@ -66,11 +69,15 @@ function saveTasks() {
     const taskItems = document.querySelectorAll('#task-list .task-item');
     const tasks = Array.from(taskItems).map(item => {
         return {
-            text: item.textContent.trim(),
+            text: item.childNodes[1].textContent.trim(),
+            date: item.querySelector('.task-date').textContent.trim(),
             completed: item.classList.contains('completed')
         };
     });
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    if (calendar) {
+        initializeCalendar();
+    }
 }
 
 function completeTask(checkbox) {
@@ -80,6 +87,32 @@ function completeTask(checkbox) {
         li.remove();
         saveTasks();
     }, 1000);
+}
+
+function initializeCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'today'
+        },
+        events: savedTasks
+            .filter(task => !task.completed)
+            .map(task => ({
+                title: task.text,
+                start: task.date,
+                allDay: true
+            })),
+        eventClick: function(info) {
+            alert(`Tarea: ${info.event.title}\nFecha: ${info.event.start.toLocaleDateString('es-ES')}`);
+        }
+    });
+    calendar.render();
 }
 
 function sendMessage() {
@@ -93,7 +126,6 @@ function sendMessage() {
     userMessage.innerHTML = `<p>${message}</p>`;
     chatContainer.appendChild(userMessage);
 
-    // Mostrar indicador de escritura
     const typingIndicator = document.createElement('div');
     typingIndicator.className = 'chat-message ai-message typing';
     typingIndicator.innerHTML = `<p>Escribiendo...</p>`;
@@ -102,18 +134,16 @@ function sendMessage() {
     chatContainer.scrollTop = chatContainer.scrollHeight;
     chatInput.value = '';
 
-    // Simular respuesta de IA con un pequeño retraso para realismo
     setTimeout(() => {
         chatContainer.removeChild(typingIndicator);
         const aiResponse = generateAIResponse(message);
         const aiMessage = document.createElement('div');
         aiMessage.className = 'chat-message ai-message';
-        aiMessage.innerHTML = `<p>${aiResponse.replace(/\n/g, '<br>')}</p>`; // Convertir \n a <br>
+        aiMessage.innerHTML = `<p>${aiResponse.replace(/\n/g, '<br>')}</p>`;
         chatContainer.appendChild(aiMessage);
 
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
-        // Guardar chat
         currentChatTopic = message.length > 30 ? message.substring(0, 30) + "..." : message;
         const chatExists = chats.findIndex(chat => chat.topic === currentChatTopic);
         
@@ -125,7 +155,6 @@ function sendMessage() {
         
         localStorage.setItem('chats', JSON.stringify(chats));
         
-        // Permitir ver escenarios después de cada mensaje
         const scenariosButton = document.createElement('div');
         scenariosButton.className = 'chat-message ai-message scenarios-button';
         scenariosButton.innerHTML = `<p><a href="#" onclick="navigate('scenarios-page'); return false;">Ver análisis de escenarios</a></p>`;
@@ -136,12 +165,9 @@ function sendMessage() {
 }
 
 function generateAIResponse(message) {
-    // Mejorada la simulación de IA para respuestas variadas
     const responses = [
         `Entiendo tu situación sobre "${message}". Vamos a analizarlo juntos:\n\n1. Considera tus prioridades: ¿Qué es más importante para ti en este momento? Piensa en cómo afecta tus metas a largo plazo.\n2. Evalúa los riesgos: ¿Qué podrías perder o ganar con esta decisión?\n3. Piensa en el impacto emocional: A veces, nuestras emociones nos guían más de lo que pensamos.\n4. Busca información adicional si te hace falta.\n5. Haz una lista de pros y contras: Puedes ver una simulación en la sección de escenarios.\n6. Considera el timing: ¿Es el momento adecuado?\n7. Confía en tu intuición: A veces nuestro instinto nos da pistas claras.\n8. Reflexiona sobre decisiones pasadas similares.\n9. Tómate tu tiempo, no te apresures.\n10. Estoy aquí para ayudarte: Si quieres profundizar más, dime.`,
-        
         `Analicemos tu situación sobre "${message}":\n\n1. Identifica qué valores personales están en juego con esta decisión.\n2. Considera quiénes se verán afectados por tu elección y cómo.\n3. Piensa en soluciones alternativas que quizás no has considerado.\n4. Establece un plazo para tomar la decisión final.\n5. Visualiza cómo te sentirás dentro de un año con cada opción.\n6. Pregúntate si estás evitando algo por miedo.\n7. Evalúa si tienes toda la información necesaria.\n8. Considera si la decisión es realmente tan importante como parece ahora.\n9. Piensa en qué te arrepentirías más: actuar o no actuar.\n10. Recuerda que puedes ver una simulación de escenarios para analizar pros y contras.`,
-        
         `Respecto a tu consulta sobre "${message}":\n\n1. Diferencia entre lo que quieres y lo que necesitas en esta situación.\n2. Contempla las consecuencias a corto, medio y largo plazo.\n3. Busca patrones en decisiones similares que hayas tomado antes.\n4. Considera si estás siendo influenciado por presiones externas.\n5. Evalúa si esta decisión refleja quién eres o quién quieres ser.\n6. Analiza si hay conflictos internos que te están dificultando decidir.\n7. Imagina qué consejo le darías a un amigo en tu situación.\n8. Divide la decisión en partes más pequeñas si te resulta abrumadora.\n9. Considera que cada opción tiene ventajas y desventajas.\n10. Recuerda que puedes consultar más detalles en la simulación de escenarios.`
     ];
     
@@ -179,7 +205,6 @@ function loadChat(index) {
         chatContainer.appendChild(messageDiv);
     });
     
-    // Añadir botón para ver escenarios
     const scenariosButton = document.createElement('div');
     scenariosButton.className = 'chat-message ai-message scenarios-button';
     scenariosButton.innerHTML = `<p><a href="#" onclick="navigate('scenarios-page'); return false;">Ver análisis de escenarios</a></p>`;
@@ -225,19 +250,15 @@ function loadScenarios() {
     scenarioContent.appendChild(optionA);
     scenarioContent.appendChild(optionB);
     
-    // Agregar botón para volver al chat
     const backButton = document.createElement('button');
     backButton.textContent = 'Volver al chat';
     backButton.onclick = () => navigate('chat-page');
     scenarioContent.appendChild(backButton);
 }
 
-// Cargar datos guardados al iniciar
 function loadSavedData() {
-    // Cargar respuestas del perfil
     loadSavedAnswers();
     
-    // Cargar tareas
     const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     if (savedTasks.length > 0) {
         const taskList = document.getElementById('task-list');
@@ -246,33 +267,37 @@ function loadSavedData() {
             if (!task.completed) {
                 const li = document.createElement('li');
                 li.className = 'task-item';
-                li.innerHTML = `<input type="checkbox" onchange="completeTask(this)"> ${task.text}`;
+                li.innerHTML = `<input type="checkbox" onchange="completeTask(this)"> ${task.text} <span class="task-date">${task.date}</span>`;
                 taskList.appendChild(li);
             }
         });
     }
 }
 
-// Inicializar la app
 document.addEventListener('DOMContentLoaded', () => {
     navigate('home-page');
     loadSavedData();
     
-    // Permitir enviar mensajes con Enter
+    // Inicializar Flatpickr para el selector de fechas
+    flatpickr('#task-date', {
+        dateFormat: 'Y-m-d',
+        locale: 'es',
+        minDate: 'today'
+    });
+    
+    // Event listeners
     document.getElementById('chat-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             sendMessage();
         }
     });
     
-    // Permitir agregar tareas con Enter
     document.getElementById('task-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
             addTask();
         }
     });
 
-    // Hacer clickeable el mensaje de ayuda para ir al chat
     document.querySelector('.helper-message').addEventListener('click', function() {
         navigate('chat-page');
     });

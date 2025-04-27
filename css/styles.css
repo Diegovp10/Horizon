@@ -32,7 +32,7 @@ body {
     height: 100vh;
     margin: 0 auto;
     padding: 20px;
-    padding-bottom: 200px; /* Espacio para bottom-container */
+    padding-bottom: 200px;
     display: none;
     overflow-y: auto;
 }
@@ -105,27 +105,25 @@ h2 {
     font-weight: 700;
     text-align: center;
     margin-bottom: 30px;
-    margin-top: 70px; /* Aumentamos el margen superior para evitar que el header lo tape */
+    margin-top: 70px;
 }
 
-/* Nueva imagen en home */
 .home-image {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 30px 0; /* Más margen para evitar solapamientos */
-    min-height: 150px; /* Espacio mínimo reservado */
+    margin: 30px 0;
+    min-height: 150px;
     width: 100%;
 }
 
 .home-image img {
     max-width: 100%;
-    max-height: 40vh; /* Limita la altura máxima al 40% del viewport */
+    max-height: 40vh;
     height: auto;
-    object-fit: contain; /* Mantiene proporciones sin distorsión */
+    object-fit: contain;
 }
 
-/* Contenedor para botones y helper-message */
 .bottom-container {
     position: fixed;
     bottom: 20px;
@@ -139,7 +137,6 @@ h2 {
     z-index: 100;
 }
 
-/* Botones de navegación en la home */
 .button-container {
     display: flex;
     flex-direction: column;
@@ -163,7 +160,6 @@ button:hover, .button:hover {
     background-color: #e5a6c0;
 }
 
-/* Helper message */
 .helper-message {
     display: flex;
     align-items: center;
@@ -180,7 +176,6 @@ button:hover, .button:hover {
     flex-shrink: 0;
 }
 
-/* Diseño de preguntas */
 .questions-container {
     display: flex;
     flex-direction: column;
@@ -204,15 +199,21 @@ input, textarea {
     min-height: 100px;
 }
 
-/* Lista de tareas */
 .task-input {
     display: flex;
     gap: 10px;
     margin-bottom: 30px;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
 }
 
 .task-input input {
     flex: 1;
+    min-width: 120px; /* Evita que los inputs sean demasiado pequeños */
+}
+
+.task-input input#task-date {
+    flex: 1;
+    min-width: 150px; /* Espacio suficiente para el selector de fecha */
 }
 
 .task-item {
@@ -241,76 +242,62 @@ input, textarea {
     opacity: 0.7;
 }
 
-/* Calendario */
-.calendar {
+.task-date {
+    margin-left: auto;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Estilos para FullCalendar */
+#calendar {
     border: 2px solid #F7B8D2;
     border-radius: 25px;
     padding: 20px;
     background-color: white;
-}
-
-.calendar-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.calendar-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
-.calendar-year {
-    color: #666;
     font-size: 14px;
 }
 
-.calendar-month {
-    text-transform: uppercase;
-    font-size: 16px;
+.fc-button {
+    background-color: #F7B8D2 !important;
+    border: none !important;
+    color: black !important;
+    border-radius: 25px !important;
+    padding: 8px 15px !important;
+    font-size: 14px !important;
 }
 
-.calendar-body {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    grid-gap: 8px;
+.fc-button:hover {
+    background-color: #e5a6c0 !important;
 }
 
-.calendar-body span {
-    padding: 8px 0;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+.fc-event {
+    background-color: #F7B8D2 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+    color: black !important;
 }
 
-.calendar-body .event::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: url('../assets/images/red-x.svg') no-repeat center;
-    background-size: 60%;
-    z-index: 1;
+.fc-daygrid-day-number {
+    color: #333 !important;
 }
 
-/* Chat */
+.fc-col-header-cell {
+    background-color: #F7B8D2 !important;
+    color: black !important;
+}
+
+.fc .fc-daygrid-day-top {
+    justify-content: center !important;
+}
+
 .chat-container {
-    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    flex-grow: 1;
     overflow-y: auto;
-    padding: 10px 0; /* Añadimos padding para mejor espaciado */
-    margin-bottom: 70px; /* Espacio para el chat-input */
-    min-height: 0; /* Permite que se ajuste dinámicamente */
+    padding: 10px 0;
+    margin-bottom: 70px;
+    min-height: 0;
 }
 
 .chat-message {
@@ -338,15 +325,15 @@ input, textarea {
 .chat-input {
     display: flex;
     gap: 10px;
-    position: fixed; /* Fijamos en la parte inferior */
-    bottom: 20px; /* Distancia desde el fondo */
-    left: 50%; /* Centramos */
-    transform: translateX(-50%); /* Ajustamos el centrado */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: white;
     padding: 10px 0;
-    width: calc(100% - 40px); /* Ajustamos el ancho */
-    max-width: 390px; /* Coincide con el ancho de .page */
-    z-index: 100; /* Aseguramos que esté por encima */
+    width: calc(100% - 40px);
+    max-width: 390px;
+    z-index: 100;
 }
 
 .chat-input input {
@@ -369,7 +356,6 @@ input, textarea {
     text-decoration: none;
 }
 
-/* Escenarios */
 .scenario-option {
     border: 2px solid #F7B8D2;
     border-radius: 25px;
@@ -401,7 +387,6 @@ input, textarea {
     background-color: red;
 }
 
-/* Historial de chats */
 #chat-history {
     display: flex;
     flex-direction: column;
@@ -414,7 +399,6 @@ input, textarea {
     padding: 15px;
 }
 
-/* Robot icon in chat */
 .robot-icon {
     width: 20px;
     height: 20px;
@@ -428,24 +412,35 @@ input, textarea {
     flex-shrink: 0;
 }
 
+.slogan {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
+    text-align: center;
+    margin: 20px 0;
+    padding: 0 20px;
+    line-height: 1.4;
+}
+
 /* Media queries para tablet */
 @media (min-width: 481px) and (max-width: 768px) {
     .page {
         max-width: 90%;
-        padding-bottom: 220px; /* Ajuste para bottom-container */
+        padding-bottom: 220px;
     }
     
     .chat-container {
-        margin-bottom: 70px; /* Espacio para chat-input */
+        margin-bottom: 70px;
     }
     
     .home-image {
-        margin: 40px 0; /* Más espacio en tablets */
+        margin: 40px 0;
         min-height: 200px;
     }
     
     .home-image img {
-        max-height: 35vh; /* Ajuste para tablets */
+        max-height: 35vh;
     }
     
     .bottom-container {
@@ -459,8 +454,17 @@ input, textarea {
     }
     
     h2 {
-        margin-top: 80px; /* Más espacio en tablets */
+        margin-top: 80px;
         font-size: 22px;
+    }
+    
+    .slogan {
+        font-size: 20px;
+        margin: 25px 0;
+    }
+    
+    #calendar {
+        font-size: 16px;
     }
 }
 
@@ -469,7 +473,7 @@ input, textarea {
     .page {
         padding: 15px;
         max-width: 100%;
-        padding-bottom: 200px; /* Ajuste para bottom-container */
+        padding-bottom: 200px;
     }
     
     .header {
@@ -494,7 +498,7 @@ input, textarea {
     h2 {
         font-size: 20px;
         margin-bottom: 20px;
-        margin-top: 60px; /* Ajuste para móviles como iPhone 11 */
+        margin-top: 60px;
     }
     
     button, .button {
@@ -509,11 +513,7 @@ input, textarea {
     }
     
     .chat-container {
-        margin-bottom: 60px; /* Espacio para chat-input */
-    }
-    
-    .calendar-body span {
-        font-size: 12px;
+        margin-bottom: 60px;
     }
     
     .answer-box {
@@ -555,7 +555,7 @@ input, textarea {
     }
     
     .home-image img {
-        max-height: 30vh; /* Ajuste para móviles */
+        max-height: 30vh;
     }
     
     .bottom-container {
@@ -566,7 +566,25 @@ input, textarea {
     .chat-input {
         width: calc(100% - 30px);
         max-width: 340px;
-        bottom: 15px; /* Más cerca del borde en móviles */
+        bottom: 15px;
+    }
+    
+    .slogan {
+        font-size: 16px;
+        margin: 15px 0;
+        padding: 0 15px;
+    }
+    
+    .task-input {
+        flex-direction: column;
+    }
+    
+    .task-input input {
+        min-width: 100%;
+    }
+    
+    #calendar {
+        font-size: 12px;
     }
 }
 
@@ -593,11 +611,11 @@ input, textarea {
     
     .page {
         padding: 10px;
-        padding-bottom: 180px; /* Ajuste para bottom-container */
+        padding-bottom: 180px;
     }
     
     .chat-container {
-        margin-bottom: 60px; /* Espacio para chat-input */
+        margin-bottom: 60px;
     }
     
     .home-image {
@@ -606,7 +624,7 @@ input, textarea {
     }
     
     .home-image img {
-        max-height: 25vh; /* Ajuste para pantallas muy pequeñas */
+        max-height: 25vh;
     }
     
     .bottom-container {
@@ -617,26 +635,32 @@ input, textarea {
     .chat-input {
         width: calc(100% - 20px);
         max-width: 300px;
-        bottom: 10px; /* Más cerca del borde */
+        bottom: 10px;
     }
     
     h2 {
         font-size: 18px;
-        margin-top: 50px; /* Ajuste para pantallas muy pequeñas */
+        margin-top: 50px;
+    }
+    
+    .slogan {
+        font-size: 14px;
+        margin: 10px 0;
+        padding: 0 10px;
     }
 }
 
-/* Para asegurar la adaptabilidad en diferentes orientaciones */
+/* Para orientación horizontal */
 @media (orientation: landscape) and (max-height: 500px) {
     .page {
         height: auto;
         min-height: 100vh;
-        padding-bottom: 200px; /* Ajuste para bottom-container */
+        padding-bottom: 200px;
     }
     
     .chat-container {
         height: 40vh;
-        margin-bottom: 60px; /* Espacio para chat-input */
+        margin-bottom: 60px;
     }
     
     .home-image {
@@ -645,45 +669,10 @@ input, textarea {
     }
     
     .home-image img {
-        max-height: 30vh; /* Ajuste para orientación horizontal */
+        max-height: 30vh;
     }
     
     h2 {
         margin-top: 60px;
-    }
-}
-/* Estilo para el eslogan */
-.slogan {
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #333; /* Color oscuro para contraste */
-    text-align: center;
-    margin: 20px 0; /* Espacio arriba y abajo */
-    padding: 0 20px; /* Padding lateral para evitar que toque los bordes */
-    line-height: 1.4; /* Mejora la legibilidad */
-}
-
-/* Media queries para ajustar el tamaño de fuente en diferentes dispositivos */
-@media (min-width: 481px) and (max-width: 768px) {
-    .slogan {
-        font-size: 20px;
-        margin: 25px 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .slogan {
-        font-size: 16px;
-        margin: 15px 0;
-        padding: 0 15px;
-    }
-}
-
-@media (max-width: 360px) {
-    .slogan {
-        font-size: 14px;
-        margin: 10px 0;
-        padding: 0 10px;
     }
 }
